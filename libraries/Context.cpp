@@ -38,6 +38,12 @@ Context::Context(const char* title, Vector2f size)
 }
 
 
+void Context::set_title(const char* title)
+{
+    SDL_SetWindowTitle(WIN, title);
+}
+
+
 SDL_Window* Context::get_window()
 {
     return WIN;
@@ -74,6 +80,19 @@ SDL_Texture* Context::load_texture(const char* file_path)
     }
 
     return texture;
+}
+
+
+bool Context::collide_rect(Rect rect1, Rect rect2)
+{
+    SDL_Rect rrect1 = rect1.get_sdl_rect();
+    SDL_Rect rrect2 = rect2.get_sdl_rect();
+    
+    if (SDL_HasIntersection(&rrect1, &rrect2))
+    {
+        return true;
+    }
+    return false;
 }
 
 

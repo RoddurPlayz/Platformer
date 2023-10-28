@@ -1,6 +1,8 @@
 #pragma once
 
 
+#include <vector>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -33,6 +35,10 @@ class Engine
 
         double dt;
 
-        SDL_Texture* player = WIN.load_texture("assets/textures/ground_grass_1.png");
-        Player Playerr = Player(player);
+        SDL_Texture* grass_texture = WIN.load_texture("assets/textures/ground_grass_1.png");
+        Player Playerr = Player(grass_texture);
+
+        std::vector<Objects> objects = {
+            Objects(grass_texture, Rect(Vector4f(800 / 2 - 32, 600 / 2 - 32, 32, 32)))
+        };
 };

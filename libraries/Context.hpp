@@ -15,13 +15,16 @@ class Context
     public:
         Context(const char* title, Vector2f size);
 
+        void set_title(const char* title);
+
         SDL_Window* get_window();
         SDL_Renderer* get_renderer();
         const char* get_title();
         Vector2f get_size();
 
         SDL_Texture* load_texture(const char* file_path);
-        Vector2f* get_texture_size(SDL_Texture* texture);
+        
+        bool collide_rect(Rect rect1, Rect rect2);
 
         void fill(Vector4f rgba);
         void blit(SDL_Texture* texture, Rect rect);
