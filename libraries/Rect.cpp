@@ -122,6 +122,23 @@ void Rect::set_bottom_right(Vector4f pos_and_size)
 }
 
 
+SDL_Rect Rect::get_sdl_rect()
+{
+    const float x = rtop_left.x;
+    const float y = rtop_left.y;
+    const float w = rtop_left.z;
+    const float h = rtop_left.w;
+
+    SDL_Rect srect;
+    srect.x = x;
+    srect.y = y;
+    srect.w = w;
+    srect.h = h;
+
+    return srect;
+}
+
+
 void Rect::move_ip(float x, float y)
 {
     rtop_left.x += x;

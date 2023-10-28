@@ -27,6 +27,8 @@ struct Rect
     void set_bottom_left(Vector4f pos_and_size);
     void set_bottom_right(Vector4f pos_and_size);
 
+    SDL_Rect get_sdl_rect();
+
     void move_ip(float x, float y);
 
     private:

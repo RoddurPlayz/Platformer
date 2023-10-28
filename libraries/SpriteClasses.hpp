@@ -19,3 +19,15 @@ class Player : SpriteClass
 
         void move_ip(float x, float y);
 };
+
+
+class Objects : SpriteClass
+{
+    public:
+        Objects(SDL_Texture* texture, Rect rect);
+        
+        SDL_Texture* get_image();
+        Rect get_rect();
+
+        void move_ip(float x, float y);
+};

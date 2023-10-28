@@ -33,3 +33,28 @@ void Player::move_ip(float x, float y)
 {
     rect.move_ip(x, y);
 }
+
+
+Objects::Objects(SDL_Texture* texture, Rect rect)
+{
+    image = texture;
+    this->rect = rect;
+}
+
+
+SDL_Texture* Objects::get_image()
+{
+    return image;
+}
+
+
+Rect Objects::get_rect()
+{
+    return rect;
+}
+
+
+void Objects::move_ip(float x, float y)
+{
+    rect.move_ip(x, y);
+}

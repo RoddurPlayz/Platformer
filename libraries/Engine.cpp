@@ -1,6 +1,8 @@
 #include "Engine.hpp"
 
 
+#include <vector>
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -30,7 +32,20 @@ void Engine::check_events()
 
 void Engine::update()
 {
-    
+    std::cout << "x: " << Playerr.get_rect().get_center().x << ", " << "y: " << Playerr.get_rect().get_center().y << "\r";
+
+    for (Objects obj: objects)
+    {
+        if (WIN.collide_rect(Playerr.get_rect(), obj.get_rect()))
+        {
+            WIN.set_title("Collided!");
+        }
+
+        else
+        {
+            WIN.set_title("Not Collided!");
+        }
+    }
 }
 
 
@@ -39,6 +54,11 @@ void Engine::render()
     WIN.fill(Vector4f(255, 255, 255, 255));
 
     WIN.blit(Playerr.get_image(), Playerr.get_rect());
+
+    for (Objects obj: objects)
+    {
+        WIN.blit(obj.get_image(), obj.get_rect());
+    }
 }
 
 
