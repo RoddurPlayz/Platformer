@@ -30,6 +30,7 @@ struct Rect
     SDL_Rect get_sdl_rect();
 
     void move_ip(float x, float y);
+    void mul_move_ip(float x, float y);
 
     private:
         Vector4f rtop_left;

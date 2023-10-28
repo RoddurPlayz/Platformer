@@ -29,9 +29,21 @@ Rect Player::get_rect()
 }
 
 
+Rect* Player::get_rrect()
+{
+    return &rect;
+}
+
+
 void Player::move_ip(float x, float y)
 {
     rect.move_ip(x, y);
+}
+
+
+void Player::mul_move_ip(float x, float y)
+{
+    rect.mul_move_ip(x, y);
 }
 
 

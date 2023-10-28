@@ -23,10 +23,15 @@ void Engine::check_events()
 {
     keys = SDL_GetKeyboardState(NULL);
 
-    if (Playerr.get_rect().get_top_left().y > 0) if (keys[SDL_SCANCODE_W]) Playerr.move_ip(0, -10);
-    if (Playerr.get_rect().get_top_left().x > 0) if (keys[SDL_SCANCODE_A]) Playerr.move_ip(-10, 0);
-    if (Playerr.get_rect().get_top_left().y < 600 - Playerr.get_rect().get_top_left().z) if (keys[SDL_SCANCODE_S]) Playerr.move_ip(0, 10);
-    if (Playerr.get_rect().get_top_left().x < 800 - Playerr.get_rect().get_top_left().w) if (keys[SDL_SCANCODE_D]) Playerr.move_ip(10, 0);
+    for (Objects obj: objects)
+    {
+        if (Playerr.get_rect().get_top_left().y > 0) if (keys[SDL_SCANCODE_W]) Playerr.move_ip(0, -10);
+        if (Playerr.get_rect().get_top_left().x > 0) if (keys[SDL_SCANCODE_A]) Playerr.move_ip(-10, 0);
+        if (Playerr.get_rect().get_top_left().y < 600 - Playerr.get_rect().get_top_left().z) if (keys[SDL_SCANCODE_S]) Playerr.move_ip(0, 10);
+        if (Playerr.get_rect().get_top_left().x < 800 - Playerr.get_rect().get_top_left().w) if (keys[SDL_SCANCODE_D]) Playerr.move_ip(10, 0);
+
+        WIN.move_and_slide(Playerr, obj, Vector2f(10, 10));
+    }
 }
 
 

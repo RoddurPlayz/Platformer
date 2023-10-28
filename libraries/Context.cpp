@@ -8,6 +8,7 @@
 
 #include "Math.hpp"
 #include "Rect.hpp"
+#include "SpriteClasses.hpp"
 
 
 Context::Context(const char* title, Vector2f size)
@@ -93,6 +94,32 @@ bool Context::collide_rect(Rect rect1, Rect rect2)
         return true;
     }
     return false;
+}
+
+
+void Context::move_and_slide(Player& rect1, Objects& rect2, Vector2f x_and_y)
+{
+    if (collide_rect(rect1.get_rect(), rect2.get_rect()))
+        {
+            Vector4f r1 = rect1.get_rect().get_top_left();
+            Vector4f r2 = rect2.get_rect().get_top_left();
+            int mi1 = std::min(r1.x + r1.z, r2.x + r2.z);
+            int mi2 = std::min(r1.y + r1.w, r2.y + r2.w);
+            int overlapX = std::max(0, mi1) + std::max(r1.x, r2.x);
+            int overlapY = std::max(0, mi2) + std::max(r1.y, r2.y);
+
+            if (overlapX < overlapY)
+            {
+                if (r1.x < r2.x) rect1.move_ip(-x_and_y.x, 0);
+                else rect1.move_ip(x_and_y.x, 0);
+            }
+
+            else
+            {
+                if (r1.y < r2.y) rect1.move_ip(0, -x_and_y.y);
+                else rect1.move_ip(0, x_and_y.y);
+            }
+        }
 }
 
 

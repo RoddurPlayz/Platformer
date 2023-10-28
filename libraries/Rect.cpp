@@ -150,3 +150,16 @@ void Rect::move_ip(float x, float y)
     rbottom_left = Vector4f(rtop_left.x, rtop_left.y + rtop_left.w, rtop_left.z, rtop_left.w);
     rbottom_right = Vector4f(rtop_left.x + rtop_left.z, rtop_left.y + rtop_left.w, rtop_left.z, rtop_left.w);
 }
+
+
+void Rect::mul_move_ip(float x, float y)
+{
+    rtop_left.x *= x;
+    rtop_left.y *= y;
+    rtop_right = Vector4f(rtop_left.x + rtop_left.w, rtop_left.y, rtop_left.z, rtop_left.w);
+
+    rcenter = Vector4f(rtop_left.x + rtop_left.z / 2, rtop_left.y + rtop_left.w / 2, rtop_left.z, rtop_left.w);
+
+    rbottom_left = Vector4f(rtop_left.x, rtop_left.y + rtop_left.w, rtop_left.z, rtop_left.w);
+    rbottom_right = Vector4f(rtop_left.x + rtop_left.z, rtop_left.y + rtop_left.w, rtop_left.z, rtop_left.w);
+}

@@ -8,6 +8,7 @@
 
 #include "Math.hpp"
 #include "Rect.hpp"
+#include "SpriteClasses.hpp"
 
 
 class Context
@@ -25,6 +26,7 @@ class Context
         SDL_Texture* load_texture(const char* file_path);
         
         bool collide_rect(Rect rect1, Rect rect2);
+        void move_and_slide(Player& rect1, Objects& rect2, Vector2f x_and_y);
 
         void fill(Vector4f rgba);
         void blit(SDL_Texture* texture, Rect rect);

@@ -16,8 +16,10 @@ class Player : SpriteClass
 
         SDL_Texture* get_image();
         Rect get_rect();
+        Rect* get_rrect();
 
         void move_ip(float x, float y);
+        void mul_move_ip(float x, float y);
 };
 
 
