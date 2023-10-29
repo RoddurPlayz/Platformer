@@ -47,3 +47,16 @@ struct Vector4f
 
     std::string print(char end);
 };
+
+
+struct Vector4b
+{
+    bool x, y, z, w;
+
+    Vector4b()
+    :x(false), y(false), z(false), w(false)
+    {}
+    Vector4b(bool x, bool y, bool z, bool w);
+
+    std::string print(char end);
+};

@@ -10,10 +10,11 @@
 #include "Texture.hpp"
 
 
-Player::Player(SDL_Texture* texture)
+Player::Player(SDL_Texture* texture, Vector2f position)
 {
     image = texture;
     rect = texture_utils.get_texture_rect(texture);
+    rect.set_top_left(Vector4f(position.x, position.y, texture_utils.get_texture_size(texture).x, texture_utils.get_texture_size(texture).y));
 }
 
 
@@ -47,10 +48,17 @@ void Player::mul_move_ip(float x, float y)
 }
 
 
-Objects::Objects(SDL_Texture* texture, Rect rect)
+void Player::set_position(Vector2f position)
+{
+    rect.set_top_left(Vector4f(position.x, position.y, rect.get_top_left().z, rect.get_top_left().w));
+}
+
+
+Objects::Objects(SDL_Texture* texture, Vector2f position)
 {
     image = texture;
-    this->rect = rect;
+    rect = texture_utils.get_texture_rect(texture);
+    rect.set_top_left(Vector4f(position.x, position.y, texture_utils.get_texture_size(texture).x, texture_utils.get_texture_size(texture).y));
 }
 
 

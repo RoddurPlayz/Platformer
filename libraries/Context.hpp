@@ -25,8 +25,7 @@ class Context
 
         SDL_Texture* load_texture(const char* file_path);
         
-        bool collide_rect(Rect rect1, Rect rect2);
-        void move_and_slide(Player& rect1, Objects& rect2, Vector2f x_and_y);
+        bool collide_rect(Rect rect1, Rect rect2, Vector4b& axis);
 
         void fill(Vector4f rgba);
         void blit(SDL_Texture* texture, Rect rect);

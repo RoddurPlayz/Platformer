@@ -67,3 +67,18 @@ std::string Vector4f::print(char end)
 {
     std::cout << "{" << "x: " + std::to_string(x) << ", " << "y: " << std::to_string(y) << ", " << "z: " << std::to_string(z) << ", " << "w: " << std::to_string(w) << "}" << end;
 }
+
+
+Vector4b::Vector4b(bool x, bool y, bool z, bool w)
+{
+    this->x = x;
+    this->y = y;
+    this->z = z;
+    this->w = w;
+}
+
+
+std::string Vector4b::print(char end)
+{
+    std::cout << "{" << "x: " + std::to_string(x) << ", " << "y: " << std::to_string(y) << ", " << "z: " << std::to_string(z) << ", " << "w: " << std::to_string(w) << "}" << end;
+}

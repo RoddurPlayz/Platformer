@@ -35,10 +35,12 @@ class Engine
 
         double dt;
 
-        SDL_Texture* grass_texture = WIN.load_texture("assets/textures/ground_grass_1.png");
-        Player Playerr = Player(grass_texture);
+        SDL_Texture* grass_texture = WIN.load_texture("assets/textures/tile.png");
+        Player Playerr = Player(grass_texture, Vector2f());
 
         std::vector<Objects> objects = {
-            Objects(grass_texture, Rect(Vector4f(800 / 2 - 32, 600 / 2 - 32, 32, 32)))
+            Objects(grass_texture, Vector2f(800 / 2 - 32, 600 / 2 - 32))
         };
+
+        Vector4b axis;
 };

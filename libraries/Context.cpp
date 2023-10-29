@@ -84,42 +84,33 @@ SDL_Texture* Context::load_texture(const char* file_path)
 }
 
 
-bool Context::collide_rect(Rect rect1, Rect rect2)
+bool Context::collide_rect(Rect rect1, Rect rect2, Vector4b& axis)
 {
     SDL_Rect rrect1 = rect1.get_sdl_rect();
     SDL_Rect rrect2 = rect2.get_sdl_rect();
     
     if (SDL_HasIntersection(&rrect1, &rrect2))
     {
-        return true;
+        if (rrect1.x <= rrect2.x) axis.w = true;
+        else axis.w = false;
+
+        if (rrect1.x >= rrect2.x) axis.y = true;
+        else axis.y = false;
+
+        if (rrect1.y <= rrect2.y) axis.z = true;
+        else axis.z = false;
+        
+        if (rrect1.y >= rrect2.y) axis.x = true;
+        else axis.x = false;
     }
-    return false;
-}
 
-
-void Context::move_and_slide(Player& rect1, Objects& rect2, Vector2f x_and_y)
-{
-    if (collide_rect(rect1.get_rect(), rect2.get_rect()))
-        {
-            Vector4f r1 = rect1.get_rect().get_top_left();
-            Vector4f r2 = rect2.get_rect().get_top_left();
-            int mi1 = std::min(r1.x + r1.z, r2.x + r2.z);
-            int mi2 = std::min(r1.y + r1.w, r2.y + r2.w);
-            int overlapX = std::max(0, mi1) + std::max(r1.x, r2.x);
-            int overlapY = std::max(0, mi2) + std::max(r1.y, r2.y);
-
-            if (overlapX < overlapY)
-            {
-                if (r1.x < r2.x) rect1.move_ip(-x_and_y.x, 0);
-                else rect1.move_ip(x_and_y.x, 0);
-            }
-
-            else
-            {
-                if (r1.y < r2.y) rect1.move_ip(0, -x_and_y.y);
-                else rect1.move_ip(0, x_and_y.y);
-            }
-        }
+    else
+    {
+        axis.w = false;
+        axis.y = false;
+        axis.z = false;
+        axis.x = false;
+    }
 }
 
 
