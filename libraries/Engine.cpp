@@ -27,20 +27,17 @@ void Engine::check_events()
     {
         WIN.collide_rect(Playerr.get_rect(), obj.get_rect(), axis);
 
-        if(axis.x) Playerr.move_ip(0, 0);
+        if (axis.x) Playerr.move_ip(0, 0);
         else if (!(axis.x)) if (Playerr.get_rect().get_top_left().y > 0) if (keys[SDL_SCANCODE_W]) Playerr.move_ip(0, -10);
 
-        if(axis.y) Playerr.move_ip(0, 0);
+        if (axis.y) Playerr.move_ip(0, 0);
         else if (!(axis.y)) if (Playerr.get_rect().get_top_left().x > 0) if (keys[SDL_SCANCODE_A]) Playerr.move_ip(-10, 0);
 
-        if(axis.z) Playerr.move_ip(0, 0);
+        if (axis.z) Playerr.move_ip(0, 0);
         else if (!(axis.z)) if (Playerr.get_rect().get_top_left().y < 600 - Playerr.get_rect().get_top_left().z) if (keys[SDL_SCANCODE_S]) Playerr.move_ip(0, 10);
 
-        if(axis.w) Playerr.move_ip(0, 0);
+        if (axis.w) Playerr.move_ip(0, 0);
         else if (!(axis.w)) if (Playerr.get_rect().get_top_left().x < 800 - Playerr.get_rect().get_top_left().w) if (keys[SDL_SCANCODE_D]) Playerr.move_ip(10, 0);
-
-
-        // WIN.move_and_slide(Playerr, obj, Vector2f(10, 10));
     }
 }
 
