@@ -3,114 +3,83 @@
 
 #include <iostream>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 
 #include "Math.hpp"
-#include "Rect.hpp"
-#include "SpriteClasses.hpp"
+#include "Image.hpp"
 
 
-Context::Context(const char* title, Vector2f size)
+Context::Context(Vector2f size)
 {
-    this->title = title;
-    this->size = size;
-
-    if (SDL_Init(SDL_INIT_VIDEO) > 0)
+    if (SDL_Init(SDL_INIT_EVERYTHING))
     {
-        std::cout << "[SDL] SDL ran into an error while initializing video." << "\n";
-        std::cout << "[SDL Error] " << SDL_GetError;
+        std::cout << "[SDL] SDL ran into an error while initializing everything!" << "\n";
+        std::cout << "[SDL Error] " << SDL_GetError() << "\n";
     }
 
-    if (!(IMG_Init(IMG_INIT_PNG)))
+    if (!IMG_Init(IMG_INIT_PNG))
     {
-        std::cout << "[SDL_image] SDL_image ran into an error while initializing PNG." << "\n";
-        std::cout << "[SDL_image Error] " << SDL_GetError;
+        std::cout << "[SDL_image] SDL_image ran into an error while initializing PNG image format!" << "\n";
+        std::cout << "[SDL_image Error] " << IMG_GetError() << "\n";
     }
 
-    WIN = SDL_CreateWindow(title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.x, size.y, SDL_WINDOW_SHOWN);
-    if (WIN == NULL)
+    WIN = SDL_CreateWindow("SDL Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, size.x, size.y, 0);
+    if (!WIN)
     {
-        std::cout << "[SDL] SDL ran into an error while initializing the window." << "\n";
-        std::cout << "[SDL Error] " << SDL_GetError;
+        std::cout << "[SDL] SDL ran into an error while initializing the window!" << "\n";
+        std::cout << "[SDL Error] " << SDL_GetError() << "\n";
     }
 
     RENDERER = SDL_CreateRenderer(WIN, -1, SDL_RENDERER_ACCELERATED);
 }
 
 
-void Context::set_title(const char* title)
+void Context::set_caption(const char* title)
 {
     SDL_SetWindowTitle(WIN, title);
 }
 
 
-SDL_Window* Context::get_window()
+Image Context::load_image(const char* path)
 {
-    return WIN;
-}
+    Image image;
+    image.image = IMG_LoadTexture(RENDERER, path);
 
-
-SDL_Renderer* Context::get_renderer()
-{
-    return RENDERER;
-}
-
-
-const char* Context::get_title()
-{
-    return title;
-}
-
-
-Vector2f Context::get_size()
-{
-    return size;
-}
-
-
-SDL_Texture* Context::load_texture(const char* file_path)
-{
-    SDL_Texture* texture = NULL;
-    texture = IMG_LoadTexture(RENDERER, file_path);
-
-    if (texture == NULL)
+    if (!image.image)
     {
-        std::cout << "[SDL_image] SDL_image ran into an error while loading a PNG formated texture from path: " << file_path << "\n";
-        std::cout << "[SDL_image ERROR] " << SDL_GetError() << "\n";
+        std::cout << "[SDL_image] SDL_image ran into an error while loading a PNG formatted file from directory \"" << path << "\"!" << "\n";
+        std::cout << "[SDL_image Error] " << IMG_GetError() << "\n";
     }
 
-    return texture;
+    return image;
 }
 
 
-bool Context::collide_rect(Rect rect1, Rect rect2, Vector4b& axis)
+void Context::update()
 {
-    SDL_Rect rrect1 = rect1.get_sdl_rect();
-    SDL_Rect rrect2 = rect2.get_sdl_rect();
+    SDL_RenderPresent(RENDERER);
+}
+
+
+float Context::clock_tick(float FPS)
+{
+    double current_tick_time = SDL_GetTicks();
+    dt = (current_tick_time - last_tick_time) / 1000;
+    last_tick_time = current_tick_time;
+    if (dt < 1000 / FPS)
+    {
+        SDL_Delay(1000 / FPS - dt);
+    }
     
-    if (SDL_HasIntersection(&rrect1, &rrect2))
-    {
-        if (rrect1.x <= rrect2.x) axis.w = true;
-        else axis.w = false;
+    return dt;
+}
 
-        if (rrect1.x >= rrect2.x) axis.y = true;
-        else axis.y = false;
 
-        if (rrect1.y <= rrect2.y) axis.z = true;
-        else axis.z = false;
-        
-        if (rrect1.y >= rrect2.y) axis.x = true;
-        else axis.x = false;
-    }
-
-    else
-    {
-        axis.w = false;
-        axis.y = false;
-        axis.z = false;
-        axis.x = false;
-    }
+float Context::get_fps()
+{
+    
+    return FPS;
 }
 
 
@@ -118,30 +87,6 @@ void Context::fill(Vector4f rgba)
 {
     SDL_RenderClear(RENDERER);
     SDL_SetRenderDrawColor(RENDERER, rgba.x, rgba.y, rgba.z, rgba.w);
-}
-
-
-void Context::blit(SDL_Texture* texture, Rect rect)
-{
-    SDL_Rect src;
-    src.x = 0;
-    src.y = 0;
-    src.w = rect.get_top_left().z;
-    src.h = rect.get_top_left().w;
-
-    SDL_Rect dst;
-    dst.x = rect.get_top_left().x;
-    dst.y = rect.get_top_left().y;
-    dst.w = rect.get_top_left().z;
-    dst.h = rect.get_top_left().w;
-
-    SDL_RenderCopy(RENDERER, texture, &src, &dst);
-}
-
-
-void Context::update_display()
-{
-    SDL_RenderPresent(RENDERER);
 }
 
 
